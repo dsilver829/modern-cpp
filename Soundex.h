@@ -17,7 +17,6 @@ class Soundex {
     }
 
     std::string encodedDigits(const std::string& word) const {
-      if(word.empty()) return "";
       std::string encoding;
       for(auto letter: word) encoding += encodedDigit(letter);
       return encoding;
