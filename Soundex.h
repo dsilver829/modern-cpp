@@ -30,7 +30,8 @@ class Soundex {
         {'m', "5"}, {'n', "5"},
         {'r', "6"}
       };
-      return encodings.find(letter)->second;
+      auto it = encodings.find(letter);
+      return it == encodings.end() ? "" : it->second;
     }
 
     std::string zeroPad(const std::string& word) const {
