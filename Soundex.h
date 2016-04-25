@@ -1,6 +1,7 @@
 #ifndef Soundex_h
 #define Soundex_h
 #include <string>
+#include <unordered_map>
 
 static const size_t MaxCodeLength{4};
 
@@ -21,8 +22,12 @@ class Soundex {
     }
 
     std::string encodedDigit(char letter) const {
-      if(letter == 'c') return "2";
-      return "1";
+      const std::unordered_map<char, std::string> encodings {
+        {'b', "1"},
+        {'c', "2"},
+        {'d', "3"}
+      };
+      encodings.find(letter)->second;
     }
 
     std::string encodedDigit() const {
