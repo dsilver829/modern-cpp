@@ -18,7 +18,10 @@ class Soundex {
 
     std::string encodedDigits(const std::string& word) const {
       std::string encoding;
-      for(auto letter: word) encoding += encodedDigit(letter);
+      for(auto letter: word) {
+        if(isComplete(encoding)) break;
+        encoding += encodedDigit(letter);
+      }
       return encoding;
     }
 
@@ -42,6 +45,10 @@ class Soundex {
 
     std::string tail(const std::string& word) const {
       return word.substr(1);
+    }
+
+    bool isComplete(const std::string& encoding) const {
+      return encoding.length() == MaxCodeLength - 1;
     }
 };
 
