@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 static const size_t MaxCodeLength{4};
+const std::string NotADigit{"*"};
 
 class Soundex {
   public:
@@ -21,7 +22,7 @@ class Soundex {
         {'r', "6"}
       };
       auto it = encodings.find(letter);
-      return it == encodings.end() ? "" : it->second;
+      return it == encodings.end() ? NotADigit : it->second;
     }
 
   private:
@@ -33,9 +34,11 @@ class Soundex {
       std::string encoding;
       for(auto letter: word) {
         if(isComplete(encoding)) break;
-        if(encodedDigit(letter) != lastDigit(encoding)) {
-          encoding += encodedDigit(letter);
-        }
+       	
+				auto digit = encodedDigit(letter);
+        if(digit != NotADigit && digit != lastDigit(encoding)) {
+					encoding += digit;
+ 				}
       }
       return encoding;
     }
@@ -54,7 +57,7 @@ class Soundex {
     }
 
     std::string lastDigit(const std::string& encoding) const {
-			if(encoding.empty()) return "";
+			if(encoding.empty()) return NotADigit;
       return std::string(1, encoding.back());
     }
 
