@@ -21,7 +21,7 @@ class Soundex {
         {'m', "5"}, {'n', "5"},
         {'r', "6"}
       };
-      auto it = encodings.find(letter);
+      auto it = encodings.find(lower(letter));
       return it == encodings.end() ? NotADigit : it->second;
     }
 
@@ -63,6 +63,10 @@ class Soundex {
 
 		std::string upperFront(const std::string& string) const {
 			return std::string(1, std::toupper(static_cast<unsigned char>(string.front())));
+    }
+
+		char lower(char c) const {
+			return std::tolower(static_cast<unsigned char>(c));
     }
 };
 
