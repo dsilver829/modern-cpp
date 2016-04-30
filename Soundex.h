@@ -32,19 +32,28 @@ class Soundex {
 
     std::string encodedDigits(const std::string& word) const {
       std::string encoding;
-
-			encoding += encodedDigit(word.front());
-
-      for(auto letter: tail(word)) {
-        if(isComplete(encoding)) break;
-       	
-				auto digit = encodedDigit(letter);
-        if(digit != NotADigit && digit != lastDigit(encoding)) {
-					encoding += digit;
- 				}
-      }
+			encodeHead(encoding, word);
+      encodeTail(encoding, word);
       return encoding;
     }
+
+ 		void encodeHead(std::string &encoding, const std::string &word) const {
+			encoding += encodedDigit(word.front());
+    }
+
+		void encodeTail(std::string &encoding, const std::string &word) const {
+      for(auto i = 1u; i < word.length(); i++) 
+        if(!isComplete(encoding))
+					encodeLetter(encoding, word[i], word[i-1]);
+       	
+      
+		}
+
+		void encodeLetter(std::string &encoding, char letter, char previousLetter) const {
+			auto digit = encodedDigit(letter);
+      if(digit != NotADigit && (digit != previousDigit(encoding) || isVowel(previousLetter))) 
+				encoding += digit;
+		}
 
     std::string zeroPad(const std::string& word) const {
       auto zerosNeeded = MaxCodeLength - word.length();
@@ -59,7 +68,7 @@ class Soundex {
       return encoding.length() == MaxCodeLength;
     }
 
-    std::string lastDigit(const std::string& encoding) const {
+    std::string previousDigit(const std::string& encoding) const {
 			if(encoding.empty()) return NotADigit;
       return std::string(1, encoding.back());
     }
@@ -71,6 +80,10 @@ class Soundex {
 		char lower(char c) const {
 			return std::tolower(static_cast<unsigned char>(c));
     }
+
+		bool isVowel(char letter) const {
+			return std::string("aeiou").find(lower(letter)) != std::string::npos;
+		}
 };
 
 #endif
