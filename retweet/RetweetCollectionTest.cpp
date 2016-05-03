@@ -11,3 +11,7 @@ class ARetweetCollection: public Test {
 TEST_F(ARetweetCollection, IsEmptyWhenCreated) {
   ASSERT_TRUE(collection.isEmpty());
 }
+
+TEST_F(ARetweetCollection, HasSizeZeroWhenCreated) {
+  ASSERT_THAT(collection.size(), Eq(0));
+}
