@@ -8,6 +8,10 @@ class ARetweetCollection: public Test {
     RetweetCollection collection;
 };
 
+MATCHER_P(HasSize, expected, "") {
+	return arg.size() == expected && arg.isEmpty() == (0 == expected);
+}
+
 TEST_F(ARetweetCollection, IsEmptyWhenCreated) {
   ASSERT_TRUE(collection.isEmpty());
 }
@@ -20,4 +24,10 @@ TEST_F(ARetweetCollection, IsNoLongerEmptyAfterTweetAdded) {
 	collection.add(Tweet());
 
   ASSERT_FALSE(collection.isEmpty());
+}
+
+TEST_F(ARetweetCollection, DecreasesSizeAfterRemovingTweet) {
+	collection.add(Tweet());
+	collection.remove(Tweet());
+	ASSERT_THAT(collection, HasSize(0u));
 }
