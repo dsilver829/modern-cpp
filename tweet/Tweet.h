@@ -6,6 +6,7 @@
 	class Tweet
 	{
 		public:
+		Tweet() {};
 		Tweet(std::string, std::string user) {};
 		
 

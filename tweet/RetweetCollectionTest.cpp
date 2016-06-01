@@ -8,6 +8,14 @@ class ARetweetCollection: public Test {
     RetweetCollection collection;
 };
 
+class ARetweetCollectionWithOneTweet: public Test {
+  public:
+    RetweetCollection collection;
+		void SetUp() override {
+			collection.add(Tweet());
+		}
+};
+
 MATCHER_P(HasSize, expected, "") {
 	return arg.size() == expected && arg.isEmpty() == (0 == expected);
 }
@@ -20,10 +28,12 @@ TEST_F(ARetweetCollection, HasSizeZeroWhenCreated) {
   ASSERT_THAT(collection.size(), Eq(0));
 }
 
-TEST_F(ARetweetCollection, IsNoLongerEmptyAfterTweetAdded) {
-	collection.add(Tweet("msg", "@user"));
-
+TEST_F(ARetweetCollectionWithOneTweet, IsNoLongerEmptyAfterTweetAdded) {
   ASSERT_FALSE(collection.isEmpty());
+}
+
+TEST_F(ARetweetCollectionWithOneTweet, HasSizeOfOneAfterTweetAdded) {
+  ASSERT_THAT(collection.size(), Eq(1u));
 }
 
 TEST_F(ARetweetCollection, DecreasesSizeAfterRemovingTweet) {
